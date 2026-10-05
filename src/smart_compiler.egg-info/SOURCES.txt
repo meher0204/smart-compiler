@@ -1,8 +1,0 @@
-README.md
-pyproject.toml
-src/scompiler/__init__.py
-src/smart_compiler.egg-info/PKG-INFO
-src/smart_compiler.egg-info/SOURCES.txt
-src/smart_compiler.egg-info/dependency_links.txt
-src/smart_compiler.egg-info/requires.txt
-src/smart_compiler.egg-info/top_level.txt

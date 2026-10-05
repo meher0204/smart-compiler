@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+.venv/
+
+# Testing
+.pytest_cache/
+.coverage
+
+# Ruff
+.ruff_cache/
+
+# Python build metadata
+*.egg-info/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Environment variables / API keys
+.env

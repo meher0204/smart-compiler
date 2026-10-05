@@ -1,5 +1,0 @@
-rich
-
-[dev]
-pytest
-ruff
