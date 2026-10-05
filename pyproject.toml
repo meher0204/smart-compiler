@@ -1,0 +1,24 @@
+[project]
+name = "smart-compiler"
+version = "0.1.0"
+description = "A fault-tolerant compiler front end with error detection, recovery, and AI-assisted diagnostics."
+requires-python = ">=3.11"
+dependencies = [
+    "rich",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]

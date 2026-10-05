@@ -1,0 +1,5 @@
+rich
+
+[dev]
+pytest
+ruff
