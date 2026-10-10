@@ -62,3 +62,11 @@ def test_return_outside_function():
     result = parse_source("return 5;")
     assert result["success"] is False
     assert result["errors"]
+
+def test_reports_multiple_syntax_errors():
+    source = "int main() { int x = ; x = ; return 0; }"
+
+    result = parse_source(source)
+
+    assert result["success"] is False
+    assert len(result["errors"]) >= 2
