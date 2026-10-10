@@ -28,12 +28,11 @@ def test_float_and_operators():
 
 
 def test_comparison_operators():
-    tokens, errors = tokenize("a <= 10 && b != 5")
+    tokens, errors = tokenize("a <= 10; b != 5")
 
+    assert not errors
     assert tokens[1].type == TokenType.LE
-    assert tokens[4].type == TokenType.NE
-    assert len(errors) == 1
-    assert errors[0].lexeme == "&"
+    assert tokens[5].type == TokenType.NE
 
 
 def test_illegal_character_does_not_stop_scanning():
