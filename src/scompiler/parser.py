@@ -1,6 +1,6 @@
 
 from scompiler.lexer import tokenize
-from scompiler.tokens import Token, TokenType
+from scompiler.tokens import TokenType
 
 
 class ParseError(Exception):
@@ -221,7 +221,7 @@ class Parser:
             token,
         )
 
-    
+
     def synchronize(self):
         while not self.check(TokenType.EOF):
             if self.check(TokenType.RBRACE):
