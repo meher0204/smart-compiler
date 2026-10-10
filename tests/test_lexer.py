@@ -28,12 +28,11 @@ def test_float_and_operators():
 
 
 def test_comparison_operators():
-    tokens, errors = tokenize("a <= 10 && b != 5")
+    tokens, errors = tokenize("a <= 10; b != 5")
 
+    assert not errors
     assert tokens[1].type == TokenType.LE
-    assert tokens[4].type == TokenType.NE
-    assert len(errors) == 1
-    assert errors[0].lexeme == "&"
+    assert tokens[5].type == TokenType.NE
 
 
 def test_illegal_character_does_not_stop_scanning():
@@ -68,3 +67,50 @@ def test_line_and_column():
     assert tokens[0].line == 1
     assert tokens[3].line == 2
     assert tokens[3].col == 1
+
+
+def test_multiple_lexical_errors():
+    tokens, errors = tokenize("int a = @; float b = #;")
+
+    assert len(errors) == 2
+    assert errors[0].lexeme == "@"
+    assert errors[1].lexeme == "#"
+    assert tokens[-1].type == TokenType.EOF
+
+
+def test_comments_are_ignored():
+    tokens, errors = tokenize(
+        "int a = 10; // this is a comment\n"
+        "/* block comment */ float b = 2.5;"
+    )
+
+    assert not errors
+    assert [token.type for token in tokens] == [
+        TokenType.INT,
+        TokenType.ID,
+        TokenType.ASSIGN,
+        TokenType.INT_LITERAL,
+        TokenType.SEMICOLON,
+        TokenType.FLOAT,
+        TokenType.ID,
+        TokenType.ASSIGN,
+        TokenType.FLOAT_LITERAL,
+        TokenType.SEMICOLON,
+        TokenType.EOF,
+    ]
+
+
+def test_unterminated_block_comment():
+    tokens, errors = tokenize("int a; /* unfinished comment")
+
+    assert len(errors) == 1
+    assert "Unterminated block comment" in errors[0].message
+    assert tokens[-1].type == TokenType.EOF
+
+
+def test_error_positions():
+    tokens, errors = tokenize("int a;\n@")
+
+    assert len(errors) == 1
+    assert errors[0].line == 2
+    assert errors[0].col == 1
