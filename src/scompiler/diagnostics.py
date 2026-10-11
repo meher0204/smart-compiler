@@ -27,16 +27,16 @@ class DiagnosticCategory(str, Enum):
 class Diagnostic:
     code: str = "SYNTAX_ERROR"
     message: str = ""
-    line: int = 1                      # 1-based line number
-    column: int = 1                    # 1-based column number
+    line: int = 1  # 1-based line number
+    column: int = 1  # 1-based column number
     severity: Severity = Severity.ERROR
-    category: str = "syntax"           # "lexical", "syntax", "recovery", etc.
-    lexeme: str = ""                   # Found token lexeme (if any)
-    expected: Optional[str] = None     # Expected token or description
-    length: int = 1                    # How many characters to underline
-    suggestion: Optional[str] = None   # Actionable fix suggestion
-    recovery_info: Optional[str] = None# Recovery status or action taken
-    notes: Tuple[str, ...] = ()        # Additional notes
+    category: str = "syntax"  # "lexical", "syntax", "recovery", etc.
+    lexeme: str = ""  # Found token lexeme (if any)
+    expected: Optional[str] = None  # Expected token or description
+    length: int = 1  # How many characters to underline
+    suggestion: Optional[str] = None  # Actionable fix suggestion
+    recovery_info: Optional[str] = None  # Recovery status or action taken
+    notes: Tuple[str, ...] = ()  # Additional notes
     related: Optional[Tuple[int, int]] = None  # (line, col) of related token
     token_index: Optional[int] = None  # Index in token stream (if available)
 
@@ -94,26 +94,30 @@ class DiagnosticCollector:
         return True
 
     def error(self, code: str, message: str, line: int, column: int, **kw) -> bool:
-        return self.add(Diagnostic(
-            code=code,
-            message=message,
-            line=line,
-            column=column,
-            severity=Severity.ERROR,
-            category=kw.pop("category", "syntax"),
-            **kw,
-        ))
+        return self.add(
+            Diagnostic(
+                code=code,
+                message=message,
+                line=line,
+                column=column,
+                severity=Severity.ERROR,
+                category=kw.pop("category", "syntax"),
+                **kw,
+            )
+        )
 
     def warning(self, code: str, message: str, line: int, column: int, **kw) -> bool:
-        return self.add(Diagnostic(
-            code=code,
-            message=message,
-            line=line,
-            column=column,
-            severity=Severity.WARNING,
-            category=kw.pop("category", "syntax"),
-            **kw,
-        ))
+        return self.add(
+            Diagnostic(
+                code=code,
+                message=message,
+                line=line,
+                column=column,
+                severity=Severity.WARNING,
+                category=kw.pop("category", "syntax"),
+                **kw,
+            )
+        )
 
     def add_lexical_error(
         self,
@@ -124,16 +128,18 @@ class DiagnosticCollector:
         code: str = "LEX_ERROR",
         **kw,
     ) -> bool:
-        return self.add(Diagnostic(
-            code=code,
-            message=message,
-            line=line,
-            column=column,
-            severity=Severity.ERROR,
-            category=DiagnosticCategory.LEXICAL.value,
-            lexeme=lexeme,
-            **kw,
-        ))
+        return self.add(
+            Diagnostic(
+                code=code,
+                message=message,
+                line=line,
+                column=column,
+                severity=Severity.ERROR,
+                category=DiagnosticCategory.LEXICAL.value,
+                lexeme=lexeme,
+                **kw,
+            )
+        )
 
     def add_syntax_error(
         self,
@@ -147,19 +153,21 @@ class DiagnosticCollector:
         code: str = "SYNTAX_ERROR",
         **kw,
     ) -> bool:
-        return self.add(Diagnostic(
-            code=code,
-            message=message,
-            line=line,
-            column=column,
-            severity=Severity.ERROR,
-            category=DiagnosticCategory.SYNTAX.value,
-            lexeme=lexeme,
-            expected=expected,
-            suggestion=suggestion,
-            recovery_info=recovery_info,
-            **kw,
-        ))
+        return self.add(
+            Diagnostic(
+                code=code,
+                message=message,
+                line=line,
+                column=column,
+                severity=Severity.ERROR,
+                category=DiagnosticCategory.SYNTAX.value,
+                lexeme=lexeme,
+                expected=expected,
+                suggestion=suggestion,
+                recovery_info=recovery_info,
+                **kw,
+            )
+        )
 
     # ---- querying ---------------------------------------------------------
     @property

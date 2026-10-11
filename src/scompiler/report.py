@@ -3,6 +3,7 @@
 Transforms collected lexical, syntax, and recovery diagnostics into a clear,
 structured summary report designed for terminal display.
 """
+
 from __future__ import annotations
 
 import sys
@@ -63,7 +64,9 @@ class ErrorReport:
         out.append(f"Message: {d.message}")
 
         if d.expected:
-            out.append(f"Expected: '{d.expected}'" if len(d.expected) == 1 else f"Expected: {d.expected}")
+            out.append(
+                f"Expected: '{d.expected}'" if len(d.expected) == 1 else f"Expected: {d.expected}"
+            )
 
         if d.lexeme:
             out.append(f"Found: '{d.lexeme}'")
@@ -98,7 +101,10 @@ class ErrorReport:
         text = "Compilation completed with errors. Recovery was attempted."
 
         if self.collector.limit_reached:
-            text += f" (Error limit of {self.collector.max_errors} reached; {self.collector.suppressed} further error(s) suppressed.)"
+            text += (
+                f" (Error limit of {self.collector.max_errors} reached; "
+                f"{self.collector.suppressed} further error(s) suppressed.)"
+            )
         elif self.collector.suppressed > 0:
             text += f" ({self.collector.suppressed} duplicate or cascading error(s) suppressed.)"
 
@@ -139,4 +145,6 @@ def generate_report(
     show_source: bool = False,
 ) -> str:
     """Convenience helper to create and render an ErrorReport."""
-    return ErrorReport(collector, source=source, filename=filename, color=color, show_source=show_source).render()
+    return ErrorReport(
+        collector, source=source, filename=filename, color=color, show_source=show_source
+    ).render()

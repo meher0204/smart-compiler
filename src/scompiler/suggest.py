@@ -3,6 +3,7 @@
 Provides deterministic, rule-based suggestions for common lexical and syntax errors,
 including missing semicolons, parentheses, braces, operator misuse, and keyword typos.
 """
+
 from __future__ import annotations
 
 import difflib
@@ -15,7 +16,13 @@ except ImportError:
 
 
 KEYWORDS = (
-    "int", "float", "if", "else", "while", "return", "printf",
+    "int",
+    "float",
+    "if",
+    "else",
+    "while",
+    "return",
+    "printf",
 )
 
 _OPERATORS = set("+-*/%<>!&|^") | {"==", "!=", "<=", ">=", "="}
@@ -44,7 +51,11 @@ def _suggest_missing_semicolon(d: Diagnostic) -> Optional[str]:
 def _suggest_missing_rparen(d: Diagnostic) -> Optional[str]:
     if d.related:
         return f"Insert ')' to close the '(' opened on line {d.related[0]}."
-    if "condition" in d.message.lower() or "if" in d.message.lower() or "while" in d.message.lower():
+    if (
+        "condition" in d.message.lower()
+        or "if" in d.message.lower()
+        or "while" in d.message.lower()
+    ):
         return "Insert ')' to close the condition."
     return "Insert ')' to close the parenthesized expression or argument list."
 
@@ -99,7 +110,10 @@ def _suggest_lexical_error(d: Diagnostic) -> Optional[str]:
     lex = d.lexeme
 
     if "malformed number" in msg:
-        return "Ensure numeric literals contain only valid digits and standard decimal format (e.g., 123 or 3.14)."
+        return (
+            "Ensure numeric literals contain only valid digits and standard decimal "
+            "format (e.g., 123 or 3.14)."
+        )
     if "unterminated string" in msg:
         return 'Add a closing quote `"` to complete the string literal.'
     if "unterminated block comment" in msg:

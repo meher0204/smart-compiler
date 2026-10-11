@@ -1,4 +1,4 @@
-"""Smart Compiler - Fault-tolerant compiler front end with error detection, recovery, and reporting."""
+"""Smart Compiler: fault-tolerant front end with error detection, recovery, and reporting."""
 
 from scompiler.diagnostics import (
     Diagnostic,
