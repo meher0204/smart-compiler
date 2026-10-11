@@ -1,5 +1,4 @@
-import pytest
-from scompiler.diagnostics import Diagnostic, DiagnosticCollector, Severity
+from scompiler.diagnostics import Diagnostic, DiagnosticCollector
 from scompiler.parser import parse_source
 from scompiler.report import ErrorReport
 from scompiler.suggest import suggest
@@ -147,8 +146,12 @@ def test_error_near_eof():
 def test_cascading_duplicate_suppression():
     collector = DiagnosticCollector(max_errors=20)
     # Adding exact duplicate
-    diag1 = Diagnostic(code="E001", message="Missing semicolon", line=5, column=10, category="syntax")
-    diag2 = Diagnostic(code="E001", message="Missing semicolon", line=5, column=10, category="syntax")
+    diag1 = Diagnostic(
+        code="E001", message="Missing semicolon", line=5, column=10, category="syntax"
+    )
+    diag2 = Diagnostic(
+        code="E001", message="Missing semicolon", line=5, column=10, category="syntax"
+    )
     assert collector.add(diag1) is True
     assert collector.add(diag2) is False
     assert collector.suppressed == 1
@@ -168,16 +171,22 @@ def test_lexical_error_followed_by_syntax_error():
 
 
 def test_rule_based_suggestions():
-    d1 = Diagnostic(code="MISSING_SEMICOLON", message="Missing semicolon", line=1, column=5, lexeme="x")
+    d1 = Diagnostic(
+        code="MISSING_SEMICOLON", message="Missing semicolon", line=1, column=5, lexeme="x"
+    )
     assert "Insert ';'" in suggest(d1)
 
-    d2 = Diagnostic(code="MISSING_RPAREN", message="Expected ')' to close condition", line=2, column=10)
+    d2 = Diagnostic(
+        code="MISSING_RPAREN", message="Expected ')' to close condition", line=2, column=10
+    )
     assert "Insert ')'" in suggest(d2)
 
     d3 = Diagnostic(code="MISSING_RBRACE", message="Unclosed block", line=3, column=1)
     assert "Insert '}'" in suggest(d3)
 
-    d4 = Diagnostic(code="SYNTAX_ERROR", message="Unexpected token", line=4, column=5, lexeme="whiel")
+    d4 = Diagnostic(
+        code="SYNTAX_ERROR", message="Unexpected token", line=4, column=5, lexeme="whiel"
+    )
     assert "while" in suggest(d4)
 
 

@@ -6,6 +6,7 @@ Implements fault-tolerant parsing recovery mechanisms:
 3. Panic-mode token skipping to the nearest safe synchronization boundary.
 4. Cascading error suppression and infinite loop prevention.
 """
+
 from __future__ import annotations
 
 from typing import Optional, Set
@@ -111,9 +112,17 @@ class RecoveryManager:
         """
         curr = self.parser.current()
 
-        if curr.type in (TokenType.LBRACE, TokenType.SEMICOLON, TokenType.INT,
-                         TokenType.FLOAT, TokenType.IF, TokenType.WHILE,
-                         TokenType.RETURN, TokenType.PRINTF, TokenType.EOF):
+        if curr.type in (
+            TokenType.LBRACE,
+            TokenType.SEMICOLON,
+            TokenType.INT,
+            TokenType.FLOAT,
+            TokenType.IF,
+            TokenType.WHILE,
+            TokenType.RETURN,
+            TokenType.PRINTF,
+            TokenType.EOF,
+        ):
             related = (open_paren.line, open_paren.col) if open_paren else None
             self.parser.collector.add_syntax_error(
                 code="MISSING_RPAREN",
@@ -122,7 +131,9 @@ class RecoveryManager:
                 column=curr.col,
                 lexeme=curr.lexeme if curr.type != TokenType.EOF else "EOF",
                 expected=")",
-                suggestion="Insert ')' to close the condition." if "condition" in context else "Insert ')'.",
+                suggestion="Insert ')' to close the condition."
+                if "condition" in context
+                else "Insert ')'.",
                 recovery_info="Continued parsing after virtually closing parenthesis.",
                 related=related,
             )
@@ -147,7 +158,9 @@ class RecoveryManager:
             column=curr.col,
             lexeme=curr.lexeme if curr.type != TokenType.EOF else "EOF",
             expected="}",
-            suggestion="Insert '}' before the end of the file." if curr.type == TokenType.EOF else "Insert '}' to close the block.",
+            suggestion="Insert '}' before the end of the file."
+            if curr.type == TokenType.EOF
+            else "Insert '}' to close the block.",
             recovery_info="Continued parsing after virtually closing block.",
             related=related,
         )

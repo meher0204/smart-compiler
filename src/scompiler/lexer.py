@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 
 from scompiler.tokens import Token, TokenType
@@ -108,7 +107,7 @@ class Lexer:
         while self.current().isalnum() or self.current() == "_":
             self.advance()
 
-        lexeme = self.source[start:self.pos]
+        lexeme = self.source[start : self.pos]
         token_type = KEYWORDS.get(lexeme, TokenType.ID)
         self.add_token(token_type, lexeme, line, col)
 
@@ -131,7 +130,7 @@ class Lexer:
             else:
                 # A decimal point must be followed by digits.
                 self.advance()
-                lexeme = self.source[start:self.pos]
+                lexeme = self.source[start : self.pos]
                 self.add_error(
                     "Malformed number: expected digits after decimal point.",
                     line,
@@ -144,7 +143,7 @@ class Lexer:
             while self.current().isalnum() or self.current() == "_":
                 self.advance()
 
-            lexeme = self.source[start:self.pos]
+            lexeme = self.source[start : self.pos]
             self.add_error(
                 "Malformed number: unexpected letters after number.",
                 line,
@@ -153,7 +152,7 @@ class Lexer:
             )
             return
 
-        lexeme = self.source[start:self.pos]
+        lexeme = self.source[start : self.pos]
         token_type = TokenType.FLOAT_LITERAL if is_float else TokenType.INT_LITERAL
         self.add_token(token_type, lexeme, line, col)
 
@@ -168,7 +167,7 @@ class Lexer:
             self.advance()
 
         if self.current() != '"':
-            lexeme = self.source[start:self.pos]
+            lexeme = self.source[start : self.pos]
             self.add_error(
                 "Unterminated string literal.",
                 line,
@@ -178,7 +177,7 @@ class Lexer:
             return
 
         self.advance()  # Closing quote
-        lexeme = self.source[start:self.pos]
+        lexeme = self.source[start : self.pos]
 
         # Strings are supported as lexical tokens for diagnostics.
         # The agreed grammar does not yet allow strings in expressions.
@@ -219,10 +218,7 @@ class Lexer:
                 self.advance()
                 self.advance()
 
-                while not (
-                    self.current() == "*"
-                    and self.peek() == "/"
-                ) and self.current() != "\0":
+                while not (self.current() == "*" and self.peek() == "/") and self.current() != "\0":
                     self.advance()
 
                 if self.current() == "\0":
@@ -260,9 +256,7 @@ class Lexer:
                 char,
             )
 
-        self.tokens.append(
-            Token(TokenType.EOF, "", self.line, self.col)
-        )
+        self.tokens.append(Token(TokenType.EOF, "", self.line, self.col))
 
         return self.tokens, self.errors
 

@@ -1,4 +1,3 @@
-
 from scompiler.lexer import tokenize
 from scompiler.tokens import TokenType
 
@@ -80,8 +79,7 @@ def test_multiple_lexical_errors():
 
 def test_comments_are_ignored():
     tokens, errors = tokenize(
-        "int a = 10; // this is a comment\n"
-        "/* block comment */ float b = 2.5;"
+        "int a = 10; // this is a comment\n/* block comment */ float b = 2.5;"
     )
 
     assert not errors
