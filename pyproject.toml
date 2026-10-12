@@ -7,7 +7,13 @@ dependencies = [
     "rich",
 ]
 
+[project.scripts]
+scompiler = "scompiler.cli:main"
+
 [project.optional-dependencies]
+ai = [
+    "anthropic",
+]
 dev = [
     "pytest",
     "ruff",

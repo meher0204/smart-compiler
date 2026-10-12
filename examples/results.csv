@@ -1,0 +1,25 @@
+file,errors,first_error,rule_suggestion,ai_verdict,ai_attempts,ai_confidence,ai_fix,ai_edit,human_judgment
+00_valid.src,0,(compiles cleanly),,,,,,,
+01_missing_semicolon.src,1,L2:15 MISSING_SEMICOLON,Insert ';' after '10'.,fixed_all,1,high (1.00),Add a semicolon after '10' at the end of line 2.,,
+02_missing_rparen_if.src,1,L3:15 MISSING_RPAREN,Insert ')' to close the condition.,fixed_all,1,high (1.00),Add a closing parenthesis `)` after `0` on line 3.,,
+03_missing_rbrace.src,1,L7:1 UNCLOSED_BLOCK,Insert '}' before the end of the file.,fixed_all,1,high (1.00),Insert a closing brace '}' before line 5 to close the if statement.,,
+04_missing_semicolon_return.src,1,L2:17 MISSING_SEMICOLON,Insert ';' after 'b'.,fixed_all,1,high (1.00),Add a semicolon after 'b' at the end of line 2.,,
+05_assign_in_condition.src,2,L3:11 MISSING_RPAREN,Insert ')' to close the condition.,fixed_all,1,high (0.97),Change the assignment operator '=' to the equality operator '=='.,L3-3: if (x == 5) {,
+06_keyword_typo.src,1,L2:11 MISSING_SEMICOLON,Insert ';' after the previous statement.,fixed_all,1,high (0.99),Change 'flaot' to 'float' on line 2.,L2-2: float y = 3.5;,
+07_illegal_character.src,2,L2:15 LEX_ERROR,Remove invalid character '@' not supported by the language grammar.,fixed_all,1,high (0.97),"Replace the '@' symbol with a valid operator like '+', '-', '*', or '/'.",L2-2: int x = 5 + 3;,
+08_unsupported_for_loop.src,2,L3:10 SYNTAX_ERROR,"Expected 'expression', but found 'int'.",fixed_all,2,medium (0.49),Declare and initialize the loop variable before a 'while' loop and increment it at the end of the loop body.,,
+09_unsupported_string.src,2,L2:12 LEX_ERROR,The language grammar currently only supports integer and float expressions.,fixed_all,1,high (0.97),Remove the string literal and replace it with a supported numeric expression or remove the printf statement.,L2-2: printf(0);,
+10_missing_expression.src,1,L2:13 SYNTAX_ERROR,Provide a valid value or expression before ';'.,fixed_all,1,low (0.40) [invented: 0],"Provide a valid expression after the '=' operator, such as an integer literal like 0.",L2-2: int x = 0;,
+11_dangling_operator.src,1,L2:16 SYNTAX_ERROR,Provide a valid value or expression before ';'.,fixed_all,1,high (0.95),Remove the trailing '+' operator or provide a value after it.,,
+12_unsupported_and_operator.src,4,L4:15 LEX_ERROR,Remove invalid character '&' not supported by the language grammar.,fixed_all,1,high (0.97),Split the condition into nested 'if' statements.,,
+13_two_independent_errors.src,2,L2:15 MISSING_SEMICOLON,Insert ';' after '10'.,fixed_all,2,high (1.00),Add semicolons to the ends of lines 2 and 3.,,
+14_cascade_missing_paren_then_more.src,2,L3:18 MISSING_RPAREN,Insert ')' to close the condition.,fixed_target,1,medium (0.70),Add a closing parenthesis ')' after '0' on line 3.,,
+15_function_param_error.src,5,L1:16 SYNTAX_ERROR,"Expected 'INT or FLOAT', but found 'b'.","no answer: Gemini API error: rate limit hit (free tier is limited per minute/day); wait a minute and retry. Server said: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.8-flash
+Please retry in 7h5m15.184993329s.",,,,,
+16_missing_closing_brace_eof.src,1,L6:1 UNCLOSED_BLOCK,Insert '}' before the end of the file.,"no answer: Gemini API error: rate limit hit (free tier is limited per minute/day); wait a minute and retry. Server said: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.8-flash
+Please retry in 7h4m59.980297874s.",,,,,
+broken1.src,1,L2:15 MISSING_SEMICOLON,Insert ';' after '10'.,"no answer: Gemini API error: rate limit hit (free tier is limited per minute/day); wait a minute and retry. Server said: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.8-flash
+Please retry in 7h4m44.392253543s.",,,,,
