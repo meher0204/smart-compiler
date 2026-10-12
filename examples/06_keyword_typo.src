@@ -1,0 +1,4 @@
+int main() {
+    flaot y = 3.5;
+    return 0;
+}
